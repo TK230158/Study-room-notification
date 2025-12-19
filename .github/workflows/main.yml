@@ -3,41 +3,25 @@ name: main
 on:
   workflow_dispatch:
   schedule:
-    # 1限(09:15) → UTC 00:10
-    # 2限(10:55) → UTC 01:50
-    # 3限(13:20) → UTC 04:15
-    # 4限(15:00) → UTC 06:00
-    # 5限(16:40) → UTC 07:40
-    # 6限(18:20) → UTC 09:15
-    # 7限(20:00) → UTC 10:55
-    - cron: '10 0 * * 1-5'     # 1限
-    - cron: '50 1 * * 1-5'     # 2限
-    - cron: '15 4 * * 1-5'     # 3限
-    - cron: '0 6 * * 1-5'      # 4限
-    - cron: '40 7 * * 1-5'     # 5限
-    - cron: '15 9 * * 1-5'     # 6限
-    - cron: '55 10 * * 1-5'    # 7限
+    - cron: '5 0 * * 1-5'    # 1st: 09:15 -> 09:05 (JST)
+    - cron: '45 1 * * 1-5'   # 2nd: 10:55 -> 10:45 (JST)
+    - cron: '10 4 * * 1-5'   # 3rd: 13:20 -> 13:10 (JST)
+    - cron: '50 5 * * 1-5'   # 4th: 15:00 -> 14:50 (JST)
+    - cron: '30 7 * * 1-5'   # 5th: 16:40 -> 16:30 (JST)
+    - cron: '10 9 * * 1-5'   # 6th: 18:20 -> 18:10 (JST)
+    - cron: '50 10 * * 1-5'  # 7th: 20:00 -> 19:50 (JST)
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          pip install pdfplumber pandas requests
-
-      - name: Run script
-        env:
+      - run: pip install pdfplumber pandas requests
+      - env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           TZ: Asia/Tokyo
-        run: |
-          python main.py
+        run: python main.py
