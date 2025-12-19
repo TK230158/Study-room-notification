@@ -7,7 +7,7 @@ from datetime import datetime
 
 # constants
 SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
-GAS_URL = os.getenv("GAS_URL")
+GAS_URL = "https://script.google.com/macros/s/AKfycbyIlCujJBDFF83MxiTKOV1pa_jOh3lLvWitTUOpijljSGfMnvNblEVknLb33v7bVglg/exec"
 
 def download_pdf():
     try:
