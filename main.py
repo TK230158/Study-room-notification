@@ -54,6 +54,7 @@ def get_room_data(pdf_path):
 
 def get_current_period_info():
     now = datetime.now().time()
+
     periods = [
         ("09:15", "10:45", 3), ("10:55", "12:25", 4), ("13:20", "14:50", 5),
         ("15:00", "16:30", 6), ("16:40", "18:10", 7), ("18:20", "19:50", 8)
@@ -88,9 +89,11 @@ def process_and_notify(df):
         rooms = target_data[target_data["タイプ"].str.contains(room_type, na=False)]["部屋番号"].unique()
         return " / ".join(rooms) if len(rooms) > 0 else "None"
 
+    display_idx = int(current_idx) - 2
+
     payload = {
         "date": f"{info['日付']}({info['曜日']})",
-        "idx": int(current_idx),
+        "idx": display_idx,
         "start_time": s_time,
         "end_time": e_time,
         "lounge": format_rooms("談話室"),
@@ -98,7 +101,7 @@ def process_and_notify(df):
     }
 
     requests.post(SLACK_WEBHOOK_URL, json=payload)
-    print(f"Success! Lounge: {payload['lounge']}, Study Room: {payload['study_room']}")
+    print(f"Success! {display_idx} Period Lounge: {payload['lounge']}")
 
 if __name__ == "__main__":
     try:
