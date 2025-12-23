@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import base64
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # constants
 SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
@@ -53,7 +53,8 @@ def get_room_data(pdf_path):
     return df_final
 
 def get_current_period_info():
-    now = datetime.now().time()
+
+    target_date = (datetime.now() + timedelta(minutes=15)).time()
 
     periods = [
         ("09:15", "10:45", 3), ("10:55", "12:25", 4), ("13:20", "14:50", 5),
@@ -62,7 +63,7 @@ def get_current_period_info():
     for start, end, idx in periods:
         start_time = datetime.strptime(start, "%H:%M").time()
         end_time = datetime.strptime(end, "%H:%M").time()
-        if start_time <= now <= end_time:
+        if start_time <= target_date <= end_time:
             return idx, start, end
     return None, None, None
 
