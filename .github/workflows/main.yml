@@ -2,16 +2,7 @@ name: main
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '55 23 * * 1-5'  # 1st: 09:15 -> 08:55 (JST)
-    - cron: '35 1 * * 1-5'   # 2nd: 10:55 -> 10:35 (JST)
-    - cron: '0 4 * * 1-5'    # 3rd: 13:20 -> 13:00 (JST)
-    - cron: '40 5 * * 1-5'   # 4th: 15:00 -> 14:40 (JST)
-    - cron: '20 7 * * 1-5'   # 5th: 16:40 -> 16:20 (JST)
-    - cron: '0 9 * * 1-5'    # 6th: 18:20 -> 18:00 (JST)
-    - cron: '40 10 * * 1-5'  # 7th: 20:00 -> 19:40 (JST)
-
-
+    
 jobs:
   run-bot:
     runs-on: ubuntu-latest
