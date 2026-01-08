@@ -68,7 +68,9 @@ def get_current_period_info():
     return None, None, None
 
 def process_and_notify(df):
-    today_str = datetime.now().strftime("%m/%d")
+    now = datetime.now()
+    today = now.strftime("%m/%d")
+    today_str = today + f"{now.month}/{now.day}"
     current_idx, s_time, e_time = get_current_period_info()
 
     if not current_idx:
